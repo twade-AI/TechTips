@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTips — Education Knowledge Base</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- ── Sidebar ──────────────────────────────────────────── -->
+    <aside class="sidebar">
+        <h1>TechTips</h1>
+        <p class="subtitle">Education Knowledge Base<br>Pedagogy &middot; Digital Technology &middot; Enterprise</p>
+
+        <div class="nav-section">
+            <h3>Explore</h3>
+            <div class="nav-item active" data-section="perspectives">
+                <span class="icon">&#x1f4ac;</span> Perspectives
+            </div>
+            <div class="nav-item" data-section="feed">
+                <span class="icon">&#x1f4e1;</span> Newsfeed
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <h3>Knowledge</h3>
+            <div class="nav-item" data-section="library">
+                <span class="icon">&#x1f4da;</span> Library
+            </div>
+            <div class="nav-item" data-section="history">
+                <span class="icon">&#x1f552;</span> Debate History
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <h3>Manage</h3>
+            <div class="nav-item" data-section="sources">
+                <span class="icon">&#x2699;</span> Feed Sources
+            </div>
+        </div>
+    </aside>
+
+    <!-- ── Main Content ─────────────────────────────────────── -->
+    <main class="main-content">
+
+        <!-- Perspectives Section -->
+        <div id="section-perspectives" class="section active">
+            <div class="question-input-area">
+                <h2>Perspectives Engine</h2>
+                <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+                    Ask a question about education innovation and get three expert perspectives debating each other.
+                </p>
+                <textarea id="question-input" placeholder="e.g. Should AI tutors replace traditional homework for GCSE students?&#10;e.g. Is project-based learning realistic for exam-factory schools?&#10;e.g. How should schools prepare students for jobs that don't exist yet?"></textarea>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                    <span class="hint">Three perspectives: The Guardian (cautious) | The Radical (transformative) | The Pragmatist (balanced)</span>
+                    <button id="ask-btn" class="btn btn-primary" onclick="askQuestion()">Generate Perspectives</button>
+                </div>
+            </div>
+            <div id="perspectives-results"></div>
+        </div>
+
+        <!-- Newsfeed Section -->
+        <div id="section-feed" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Education Newsfeed</h2>
+                    <button class="btn btn-sm btn-secondary" onclick="loadFeed()">Refresh</button>
+                </div>
+                <div class="feed-filters">
+                    <span class="filter-chip active" onclick="filterFeed('all')">All</span>
+                    <span class="filter-chip" onclick="filterFeed('education')">Education</span>
+                    <span class="filter-chip" onclick="filterFeed('edtech')">EdTech</span>
+                    <span class="filter-chip" onclick="filterFeed('policy')">Policy</span>
+                    <span class="filter-chip" onclick="filterFeed('pedagogy')">Pedagogy</span>
+                </div>
+            </div>
+            <div id="feed-articles"></div>
+        </div>
+
+        <!-- Library Section -->
+        <div id="section-library" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Knowledge Library</h2>
+                    <div>
+                        <button class="btn btn-sm btn-primary" onclick="showCreateNote()">New Note</button>
+                        <button class="btn btn-sm btn-secondary" onclick="showCreateCollection()">New Collection</button>
+                    </div>
+                </div>
+                <div class="library-tabs">
+                    <div class="lib-tab active" onclick="switchLibTab('articles')">Saved Articles</div>
+                    <div class="lib-tab" onclick="switchLibTab('notes')">Notes</div>
+                    <div class="lib-tab" onclick="switchLibTab('collections')">Collections</div>
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="library-search" placeholder="Search your library..." onkeyup="if(event.key==='Enter') searchLibrary()">
+                    <button class="btn btn-secondary" onclick="searchLibrary()">Search</button>
+                </div>
+            </div>
+            <div id="library-content"></div>
+        </div>
+
+        <!-- History Section -->
+        <div id="section-history" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Debate History</h2>
+                </div>
+                <p style="font-size:0.88rem; color:var(--text-muted);">
+                    All your previous perspective debates are saved here. Click to revisit a question.
+                </p>
+            </div>
+            <div id="history-list"></div>
+        </div>
+
+        <!-- Feed Sources Section -->
+        <div id="section-sources" class="section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Feed Sources</h2>
+                </div>
+                <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
+                    Manage the RSS feeds that power your newsfeed. Add education blogs, journals, and news sources.
+                </p>
+                <div id="sources-list"></div>
+                <hr style="margin:16px 0; border:none; border-top:1px solid var(--border);">
+                <h3 style="font-size:0.95rem; margin-bottom:12px;">Add New Source</h3>
+                <div class="form-group">
+                    <label>Source Name</label>
+                    <input type="text" id="new-source-name" placeholder="e.g. Schools Week">
+                </div>
+                <div class="form-group">
+                    <label>RSS Feed URL</label>
+                    <input type="text" id="new-source-url" placeholder="e.g. https://schoolsweek.co.uk/feed/">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="new-source-category">
+                        <option value="education">Education</option>
+                        <option value="edtech">EdTech</option>
+                        <option value="policy">Policy</option>
+                        <option value="pedagogy">Pedagogy</option>
+                        <option value="general">General</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="addSource()">Add Source</button>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- ── Modals ────────────────────────────────────────────────── -->
+
+<!-- Summary Modal -->
+<div id="summary-modal" class="modal-overlay" onclick="if(event.target===this) closeSummaryModal()">
+    <div class="modal">
+        <div class="card-header">
+            <h2>AI Summary</h2>
+            <button class="btn btn-sm btn-secondary" onclick="closeSummaryModal()">Close</button>
+        </div>
+        <div id="summary-modal-content"></div>
+    </div>
+</div>
+
+<!-- Create Note Modal -->
+<div id="note-modal" class="modal-overlay" onclick="if(event.target===this) closeNoteModal()">
+    <div class="modal">
+        <h2>Create Note</h2>
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="note-title" placeholder="Note title">
+        </div>
+        <div class="form-group">
+            <label>Content</label>
+            <textarea id="note-content" rows="6" placeholder="Write your note..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Tags (comma-separated)</label>
+            <input type="text" id="note-tags" placeholder="e.g. pedagogy, assessment, AI">
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeNoteModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="createNote()">Save Note</button>
+        </div>
+    </div>
+</div>
+
+<!-- Create Collection Modal -->
+<div id="collection-modal" class="modal-overlay" onclick="if(event.target===this) closeCollectionModal()">
+    <div class="modal">
+        <h2>Create Collection</h2>
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="collection-name" placeholder="e.g. Assessment Innovation">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="collection-desc" rows="3" placeholder="What is this collection about?"></textarea>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeCollectionModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="createCollection()">Create</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+// ── Feed Sources management (inline for simplicity) ─────────
+async function loadSources() {
+    const container = document.getElementById('sources-list');
+    try {
+        const res = await fetch('/api/feed/sources');
+        const sources = await res.json();
+        if (sources.length === 0) {
+            container.innerHTML = '<p style="color:var(--text-muted);">No feed sources configured.</p>';
+            return;
+        }
+        container.innerHTML = sources.map(s => `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border);">
+                <div>
+                    <strong style="font-size:0.9rem;">${s.name}</strong>
+                    <span class="tag">${s.category || 'general'}</span>
+                    <div style="font-size:0.78rem; color:var(--text-muted);">${s.url}</div>
+                </div>
+                <button class="btn btn-sm btn-danger" onclick="removeSource(${s.id})">Remove</button>
+            </div>
+        `).join('');
+    } catch (err) {
+        container.innerHTML = `<p>Error: ${err.message}</p>`;
+    }
+}
+
+async function addSource() {
+    const name = document.getElementById('new-source-name').value.trim();
+    const url = document.getElementById('new-source-url').value.trim();
+    const category = document.getElementById('new-source-category').value;
+
+    if (!name || !url) { alert('Name and URL are required'); return; }
+
+    try {
+        await fetch('/api/feed/sources', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, url, category }),
+        });
+        document.getElementById('new-source-name').value = '';
+        document.getElementById('new-source-url').value = '';
+        loadSources();
+    } catch (err) {
+        alert('Error: ' + err.message);
+    }
+}
+
+async function removeSource(id) {
+    if (!confirm('Remove this feed source?')) return;
+    await fetch(`/api/feed/sources/${id}`, { method: 'DELETE' });
+    loadSources();
+}
+
+// Load sources when that section is shown
+const origShowSection = showSection;
+showSection = function(section) {
+    origShowSection(section);
+    if (section === 'sources') loadSources();
+};
+</script>
+
+</body>
+</html>
