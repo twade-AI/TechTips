@@ -1,16 +1,13 @@
 """
-TechTips Education Knowledge Base — Main Application
+TechTips — Education Innovation Hub
 
-A knowledge base for education innovation (11-18 year olds)
+A curated resource website for education innovation (11-18 year olds)
 covering pedagogy, digital technology, and enterprise.
+No API keys required.
 """
 
-import json
 import os
 from contextlib import asynccontextmanager
-
-from dotenv import load_dotenv
-load_dotenv()
 
 from fastapi import FastAPI, Request, Depends
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -19,21 +16,22 @@ from fastapi.templating import Jinja2Templates
 
 import aiosqlite
 
-from .database import get_db, init_db, seed_default_feeds
-from . import perspectives, newsfeed, library
+from .database import get_db, init_db, seed_default_feeds, seed_default_resources
+from . import newsfeed, library
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
     await seed_default_feeds()
+    await seed_default_resources()
     yield
 
 
 app = FastAPI(
-    title="TechTips Education Knowledge Base",
-    description="Innovation in pedagogy, digital technology and enterprise for 11-18 education",
-    version="1.0.0",
+    title="TechTips — Education Innovation Hub",
+    description="Curated resources for innovation in pedagogy, digital technology and enterprise for 11-18 education",
+    version="2.0.0",
     lifespan=lifespan,
 )
 
@@ -49,48 +47,6 @@ async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-# ── Perspectives API ─────────────────────────────────────────────────
-
-@app.post("/api/perspectives")
-async def create_perspective(request: Request, db: aiosqlite.Connection = Depends(get_db)):
-    body = await request.json()
-    question = body.get("question", "").strip()
-    if not question:
-        return JSONResponse({"error": "Question is required"}, status_code=400)
-
-    result = await perspectives.generate_perspectives(question)
-
-    await library.save_perspective(
-        db,
-        question=question,
-        cautious=json.dumps(result.get("cautious", {})),
-        radical=json.dumps(result.get("radical", {})),
-        pragmatic=json.dumps(result.get("pragmatic", {})),
-        verdict=json.dumps(result.get("verdict", {})),
-    )
-
-    return JSONResponse(result)
-
-
-@app.post("/api/perspectives/followup")
-async def perspective_followup(request: Request):
-    body = await request.json()
-    question = body.get("question", "")
-    original = body.get("original", {})
-    followup = body.get("followup", "").strip()
-    if not followup:
-        return JSONResponse({"error": "Follow-up question is required"}, status_code=400)
-
-    result = await perspectives.generate_followup(question, original, followup)
-    return JSONResponse({"response": result})
-
-
-@app.get("/api/perspectives")
-async def list_perspectives(db: aiosqlite.Connection = Depends(get_db)):
-    results = await library.get_perspectives(db)
-    return JSONResponse(results)
-
-
 # ── Newsfeed API ─────────────────────────────────────────────────────
 
 @app.get("/api/feed")
@@ -99,15 +55,6 @@ async def get_feed(db: aiosqlite.Connection = Depends(get_db)):
     feed_list = [{"url": s["url"], "name": s["name"], "category": s.get("category", "general")} for s in sources]
     articles = await newsfeed.fetch_all_feeds(feed_list, limit_per_feed=5)
     return JSONResponse(articles)
-
-
-@app.post("/api/feed/summarise")
-async def summarise(request: Request):
-    body = await request.json()
-    title = body.get("title", "")
-    content = body.get("content", "")
-    result = await newsfeed.summarise_article(title, content)
-    return JSONResponse(result)
 
 
 @app.get("/api/feed/sources")
@@ -132,6 +79,20 @@ async def add_feed(request: Request, db: aiosqlite.Connection = Depends(get_db))
 async def delete_feed(feed_id: int, db: aiosqlite.Connection = Depends(get_db)):
     await library.remove_feed_source(db, feed_id)
     return JSONResponse({"ok": True})
+
+
+# ── Resources API ────────────────────────────────────────────────────
+
+@app.get("/api/resources")
+async def list_resources(category: str = None, db: aiosqlite.Connection = Depends(get_db)):
+    resources = await library.get_resources(db, category=category)
+    return JSONResponse(resources)
+
+
+@app.get("/api/resources/featured")
+async def featured_resources(db: aiosqlite.Connection = Depends(get_db)):
+    resources = await library.get_featured_resources(db)
+    return JSONResponse(resources)
 
 
 # ── Library API ──────────────────────────────────────────────────────

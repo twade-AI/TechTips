@@ -3,131 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechTips — Education Knowledge Base</title>
+    <title>TechTips — Education Innovation Hub</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 
+<!-- ── Mobile Nav Toggle ─────────────────────────────────── -->
+<button class="mobile-nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+</button>
+
 <div class="app-container">
 
     <!-- ── Sidebar ──────────────────────────────────────────── -->
-    <aside class="sidebar">
-        <h1>TechTips</h1>
-        <p class="subtitle">Education Knowledge Base<br>Pedagogy &middot; Digital Technology &middot; Enterprise</p>
-
-        <div class="nav-section">
-            <h3>Explore</h3>
-            <div class="nav-item active" data-section="perspectives">
-                <span class="icon">&#x1f4ac;</span> Perspectives
-            </div>
-            <div class="nav-item" data-section="feed">
-                <span class="icon">&#x1f4e1;</span> Newsfeed
-            </div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1>TechTips</h1>
+            <p class="subtitle">Education Innovation Hub</p>
         </div>
 
-        <div class="nav-section">
-            <h3>Knowledge</h3>
-            <div class="nav-item" data-section="library">
-                <span class="icon">&#x1f4da;</span> Library
+        <nav>
+            <div class="nav-section">
+                <div class="nav-item active" data-section="home">
+                    <span class="nav-icon">&#9750;</span> Home
+                </div>
+                <div class="nav-item" data-section="articles">
+                    <span class="nav-icon">&#9889;</span> Latest Articles
+                </div>
+                <div class="nav-item" data-section="resources">
+                    <span class="nav-icon">&#9733;</span> Resource Toolkit
+                </div>
             </div>
-            <div class="nav-item" data-section="history">
-                <span class="icon">&#x1f552;</span> Debate History
-            </div>
-        </div>
 
-        <div class="nav-section">
-            <h3>Manage</h3>
-            <div class="nav-item" data-section="sources">
-                <span class="icon">&#x2699;</span> Feed Sources
+            <div class="nav-section">
+                <h3>My Library</h3>
+                <div class="nav-item" data-section="reading-list">
+                    <span class="nav-icon">&#9776;</span> Reading List
+                </div>
+                <div class="nav-item" data-section="notes">
+                    <span class="nav-icon">&#9998;</span> Notes
+                </div>
             </div>
+
+            <div class="nav-section">
+                <h3>Settings</h3>
+                <div class="nav-item" data-section="sources">
+                    <span class="nav-icon">&#9881;</span> Feed Sources
+                </div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>Pedagogy &middot; EdTech &middot; Enterprise</p>
+            <p>For 11-18 education</p>
         </div>
     </aside>
 
     <!-- ── Main Content ─────────────────────────────────────── -->
     <main class="main-content">
 
-        <!-- Perspectives Section -->
-        <div id="section-perspectives" class="section active">
-            <div class="question-input-area">
-                <h2>Perspectives Engine</h2>
-                <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
-                    Ask a question about education innovation and get three expert perspectives debating each other.
-                </p>
-                <textarea id="question-input" placeholder="e.g. Should AI tutors replace traditional homework for GCSE students?&#10;e.g. Is project-based learning realistic for exam-factory schools?&#10;e.g. How should schools prepare students for jobs that don't exist yet?"></textarea>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                    <span class="hint">Three perspectives: The Guardian (cautious) | The Radical (transformative) | The Pragmatist (balanced)</span>
-                    <button id="ask-btn" class="btn btn-primary" onclick="askQuestion()">Generate Perspectives</button>
+        <!-- ═══ HOME ═══ -->
+        <div id="section-home" class="section active">
+
+            <!-- Hero -->
+            <div class="hero">
+                <div class="hero-content">
+                    <h2>Discover What's Next in Education</h2>
+                    <p>Curated articles, resources, and tools for teachers and leaders innovating in pedagogy, digital technology, and enterprise education for 11-18 year olds.</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-lg" onclick="showSection('articles')">Browse Latest Articles</button>
+                        <button class="btn btn-outline btn-lg" onclick="showSection('resources')">Explore Toolkit</button>
+                    </div>
                 </div>
             </div>
-            <div id="perspectives-results"></div>
+
+            <!-- School Values -->
+            <div class="values-banner">
+                <h3>Our School Values</h3>
+                <div class="values-row">
+                    <span class="value-pill courage" onclick="filterByValue('courage')" title="We face challenges directly. We are bold in our ambitions and pursue excellence.">Courage</span>
+                    <span class="value-pill curiosity" onclick="filterByValue('curiosity')" title="We nurture a love of learning by asking questions and exploring new ideas.">Curiosity</span>
+                    <span class="value-pill integrity" onclick="filterByValue('integrity')" title="We do what is right, even if it is not easy. We take responsibility for our actions.">Integrity</span>
+                    <span class="value-pill kindness" onclick="filterByValue('kindness')" title="We are an empathetic, compassionate community where everyone feels valued.">Kindness</span>
+                    <span class="value-pill respect" onclick="filterByValue('respect')" title="We respect each other and the world around us, upholding the dignity of every individual.">Respect</span>
+                    <span class="value-pill service" onclick="filterByValue('service')" title="We seek to make a positive difference through meaningful contributions and leadership.">Service</span>
+                </div>
+            </div>
+
+            <!-- Topic Cards -->
+            <div class="home-section">
+                <h3 class="section-title">Browse by Topic</h3>
+                <div class="topic-grid">
+                    <div class="topic-card" onclick="showResourceCategory('ai')" style="--accent-color: #7c3aed;">
+                        <div class="topic-icon">&#129302;</div>
+                        <h4>AI in Education</h4>
+                        <p>Tools and guides for classroom AI</p>
+                    </div>
+                    <div class="topic-card" onclick="showResourceCategory('pbl')" style="--accent-color: #059669;">
+                        <div class="topic-icon">&#128736;</div>
+                        <h4>Project-Based Learning</h4>
+                        <p>Frameworks and real-world projects</p>
+                    </div>
+                    <div class="topic-card" onclick="showResourceCategory('assessment')" style="--accent-color: #d97706;">
+                        <div class="topic-icon">&#128200;</div>
+                        <h4>Assessment Innovation</h4>
+                        <p>Beyond traditional exams</p>
+                    </div>
+                    <div class="topic-card" onclick="showResourceCategory('digital')" style="--accent-color: #2563eb;">
+                        <div class="topic-icon">&#128187;</div>
+                        <h4>Digital &amp; Computing</h4>
+                        <p>Coding, digital literacy, and tools</p>
+                    </div>
+                    <div class="topic-card" onclick="showResourceCategory('enterprise')" style="--accent-color: #dc2626;">
+                        <div class="topic-icon">&#127919;</div>
+                        <h4>Enterprise &amp; Careers</h4>
+                        <p>Employability and entrepreneurship</p>
+                    </div>
+                    <div class="topic-card" onclick="showResourceCategory('research')" style="--accent-color: #0891b2;">
+                        <div class="topic-icon">&#128218;</div>
+                        <h4>Research &amp; Evidence</h4>
+                        <p>What the evidence says works</p>
+                    </div>
+                    <div class="topic-card" onclick="showResourceCategory('inclusion')" style="--accent-color: #db2777;">
+                        <div class="topic-icon">&#10084;</div>
+                        <h4>Inclusive Education</h4>
+                        <p>SEND, pupil premium, and equity</p>
+                    </div>
+                    <div class="topic-card" onclick="showSection('articles')" style="--accent-color: #64748b;">
+                        <div class="topic-icon">&#128240;</div>
+                        <h4>Latest News</h4>
+                        <p>Live RSS feeds from top sources</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Resources -->
+            <div class="home-section">
+                <div class="section-header">
+                    <h3 class="section-title">Featured Resources</h3>
+                    <button class="btn btn-sm btn-ghost" onclick="loadFeaturedResources()">Shuffle</button>
+                </div>
+                <div id="featured-resources" class="featured-grid"></div>
+            </div>
+
+            <!-- Latest Articles Preview -->
+            <div class="home-section">
+                <div class="section-header">
+                    <h3 class="section-title">Latest from the Feed</h3>
+                    <div class="section-actions">
+                        <button class="btn btn-sm btn-accent" onclick="surpriseMe()">Surprise Me</button>
+                        <button class="btn btn-sm btn-ghost" onclick="showSection('articles')">View All</button>
+                    </div>
+                </div>
+                <div id="home-articles"></div>
+            </div>
         </div>
 
-        <!-- Newsfeed Section -->
-        <div id="section-feed" class="section">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Education Newsfeed</h2>
+        <!-- ═══ ARTICLES ═══ -->
+        <div id="section-articles" class="section">
+            <div class="page-header">
+                <div>
+                    <h2>Latest Articles</h2>
+                    <p class="page-desc">Live from education RSS feeds across the web</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-sm btn-accent" onclick="surpriseMe()">Surprise Me</button>
                     <button class="btn btn-sm btn-secondary" onclick="loadFeed()">Refresh</button>
                 </div>
-                <div class="feed-filters">
-                    <span class="filter-chip active" onclick="filterFeed('all')">All</span>
-                    <span class="filter-chip" onclick="filterFeed('education')">Education</span>
-                    <span class="filter-chip" onclick="filterFeed('edtech')">EdTech</span>
-                    <span class="filter-chip" onclick="filterFeed('policy')">Policy</span>
-                    <span class="filter-chip" onclick="filterFeed('pedagogy')">Pedagogy</span>
-                </div>
+            </div>
+            <div class="feed-filters">
+                <span class="filter-chip active" onclick="filterFeed('all')">All</span>
+                <span class="filter-chip" onclick="filterFeed('education')">Education</span>
+                <span class="filter-chip" onclick="filterFeed('edtech')">EdTech</span>
+                <span class="filter-chip" onclick="filterFeed('policy')">Policy</span>
+                <span class="filter-chip" onclick="filterFeed('pedagogy')">Pedagogy</span>
+            </div>
+            <div class="values-filters">
+                <span style="font-size:0.78rem; color:var(--text-muted); margin-right:4px; align-self:center;">Filter by value:</span>
+                <span class="value-chip" data-value="courage" onclick="filterByValue('courage')">Courage</span>
+                <span class="value-chip" data-value="curiosity" onclick="filterByValue('curiosity')">Curiosity</span>
+                <span class="value-chip" data-value="integrity" onclick="filterByValue('integrity')">Integrity</span>
+                <span class="value-chip" data-value="kindness" onclick="filterByValue('kindness')">Kindness</span>
+                <span class="value-chip" data-value="respect" onclick="filterByValue('respect')">Respect</span>
+                <span class="value-chip" data-value="service" onclick="filterByValue('service')">Service</span>
             </div>
             <div id="feed-articles"></div>
         </div>
 
-        <!-- Library Section -->
-        <div id="section-library" class="section">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Knowledge Library</h2>
-                    <div>
-                        <button class="btn btn-sm btn-primary" onclick="showCreateNote()">New Note</button>
-                        <button class="btn btn-sm btn-secondary" onclick="showCreateCollection()">New Collection</button>
-                    </div>
-                </div>
-                <div class="library-tabs">
-                    <div class="lib-tab active" onclick="switchLibTab('articles')">Saved Articles</div>
-                    <div class="lib-tab" onclick="switchLibTab('notes')">Notes</div>
-                    <div class="lib-tab" onclick="switchLibTab('collections')">Collections</div>
-                </div>
-                <div class="search-bar">
-                    <input type="text" id="library-search" placeholder="Search your library..." onkeyup="if(event.key==='Enter') searchLibrary()">
-                    <button class="btn btn-secondary" onclick="searchLibrary()">Search</button>
+        <!-- ═══ RESOURCES ═══ -->
+        <div id="section-resources" class="section">
+            <div class="page-header">
+                <div>
+                    <h2>Resource Toolkit</h2>
+                    <p class="page-desc">Hand-picked tools, organisations, and platforms for education innovation</p>
                 </div>
             </div>
-            <div id="library-content"></div>
-        </div>
-
-        <!-- History Section -->
-        <div id="section-history" class="section">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Debate History</h2>
-                </div>
-                <p style="font-size:0.88rem; color:var(--text-muted);">
-                    All your previous perspective debates are saved here. Click to revisit a question.
-                </p>
+            <div class="resource-filters">
+                <span class="filter-chip active" data-cat="all" onclick="filterResources('all')">All</span>
+                <span class="filter-chip" data-cat="ai" onclick="filterResources('ai')">AI in Education</span>
+                <span class="filter-chip" data-cat="pbl" onclick="filterResources('pbl')">Project-Based Learning</span>
+                <span class="filter-chip" data-cat="assessment" onclick="filterResources('assessment')">Assessment</span>
+                <span class="filter-chip" data-cat="digital" onclick="filterResources('digital')">Digital &amp; Computing</span>
+                <span class="filter-chip" data-cat="enterprise" onclick="filterResources('enterprise')">Enterprise &amp; Careers</span>
+                <span class="filter-chip" data-cat="research" onclick="filterResources('research')">Research &amp; Evidence</span>
+                <span class="filter-chip" data-cat="inclusion" onclick="filterResources('inclusion')">Inclusive Education</span>
             </div>
-            <div id="history-list"></div>
+            <div id="resources-list"></div>
         </div>
 
-        <!-- Feed Sources Section -->
+        <!-- ═══ READING LIST ═══ -->
+        <div id="section-reading-list" class="section">
+            <div class="page-header">
+                <div>
+                    <h2>Reading List</h2>
+                    <p class="page-desc">Articles you've saved for later</p>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="reading-search" placeholder="Search your saved articles..." onkeyup="if(event.key==='Enter') searchReadingList()">
+                <button class="btn btn-secondary" onclick="searchReadingList()">Search</button>
+            </div>
+            <div id="reading-list-content"></div>
+        </div>
+
+        <!-- ═══ NOTES ═══ -->
+        <div id="section-notes" class="section">
+            <div class="page-header">
+                <div>
+                    <h2>Notes</h2>
+                    <p class="page-desc">Your personal knowledge notes</p>
+                </div>
+                <button class="btn btn-primary" onclick="showCreateNote()">New Note</button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="notes-search" placeholder="Search notes..." onkeyup="if(event.key==='Enter') searchNotes()">
+                <button class="btn btn-secondary" onclick="searchNotes()">Search</button>
+            </div>
+            <div id="notes-content"></div>
+        </div>
+
+        <!-- ═══ FEED SOURCES ═══ -->
         <div id="section-sources" class="section">
-            <div class="card">
-                <div class="card-header">
+            <div class="page-header">
+                <div>
                     <h2>Feed Sources</h2>
+                    <p class="page-desc">Manage the RSS feeds that power your article stream</p>
                 </div>
-                <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
-                    Manage the RSS feeds that power your newsfeed. Add education blogs, journals, and news sources.
-                </p>
+            </div>
+            <div class="card">
                 <div id="sources-list"></div>
-                <hr style="margin:16px 0; border:none; border-top:1px solid var(--border);">
-                <h3 style="font-size:0.95rem; margin-bottom:12px;">Add New Source</h3>
+                <hr class="divider">
+                <h3 class="form-title">Add New Source</h3>
                 <div class="form-group">
                     <label>Source Name</label>
                     <input type="text" id="new-source-name" placeholder="e.g. Schools Week">
@@ -155,14 +281,17 @@
 
 <!-- ── Modals ────────────────────────────────────────────────── -->
 
-<!-- Summary Modal -->
-<div id="summary-modal" class="modal-overlay" onclick="if(event.target===this) closeSummaryModal()">
-    <div class="modal">
-        <div class="card-header">
-            <h2>AI Summary</h2>
-            <button class="btn btn-sm btn-secondary" onclick="closeSummaryModal()">Close</button>
+<!-- Surprise Me Modal -->
+<div id="surprise-modal" class="modal-overlay" onclick="if(event.target===this) closeSurpriseModal()">
+    <div class="modal modal-wide">
+        <div class="modal-header">
+            <h2>Your Random Pick</h2>
+            <button class="btn btn-sm btn-secondary" onclick="closeSurpriseModal()">Close</button>
         </div>
-        <div id="summary-modal-content"></div>
+        <div id="surprise-content"></div>
+        <div class="modal-actions">
+            <button class="btn btn-accent" onclick="surpriseMe()">Another One</button>
+        </div>
     </div>
 </div>
 
@@ -189,86 +318,7 @@
     </div>
 </div>
 
-<!-- Create Collection Modal -->
-<div id="collection-modal" class="modal-overlay" onclick="if(event.target===this) closeCollectionModal()">
-    <div class="modal">
-        <h2>Create Collection</h2>
-        <div class="form-group">
-            <label>Name</label>
-            <input type="text" id="collection-name" placeholder="e.g. Assessment Innovation">
-        </div>
-        <div class="form-group">
-            <label>Description</label>
-            <textarea id="collection-desc" rows="3" placeholder="What is this collection about?"></textarea>
-        </div>
-        <div class="modal-actions">
-            <button class="btn btn-secondary" onclick="closeCollectionModal()">Cancel</button>
-            <button class="btn btn-primary" onclick="createCollection()">Create</button>
-        </div>
-    </div>
-</div>
-
 <script src="/static/js/app.js"></script>
-<script>
-// ── Feed Sources management (inline for simplicity) ─────────
-async function loadSources() {
-    const container = document.getElementById('sources-list');
-    try {
-        const res = await fetch('/api/feed/sources');
-        const sources = await res.json();
-        if (sources.length === 0) {
-            container.innerHTML = '<p style="color:var(--text-muted);">No feed sources configured.</p>';
-            return;
-        }
-        container.innerHTML = sources.map(s => `
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border);">
-                <div>
-                    <strong style="font-size:0.9rem;">${s.name}</strong>
-                    <span class="tag">${s.category || 'general'}</span>
-                    <div style="font-size:0.78rem; color:var(--text-muted);">${s.url}</div>
-                </div>
-                <button class="btn btn-sm btn-danger" onclick="removeSource(${s.id})">Remove</button>
-            </div>
-        `).join('');
-    } catch (err) {
-        container.innerHTML = `<p>Error: ${err.message}</p>`;
-    }
-}
-
-async function addSource() {
-    const name = document.getElementById('new-source-name').value.trim();
-    const url = document.getElementById('new-source-url').value.trim();
-    const category = document.getElementById('new-source-category').value;
-
-    if (!name || !url) { alert('Name and URL are required'); return; }
-
-    try {
-        await fetch('/api/feed/sources', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, url, category }),
-        });
-        document.getElementById('new-source-name').value = '';
-        document.getElementById('new-source-url').value = '';
-        loadSources();
-    } catch (err) {
-        alert('Error: ' + err.message);
-    }
-}
-
-async function removeSource(id) {
-    if (!confirm('Remove this feed source?')) return;
-    await fetch(`/api/feed/sources/${id}`, { method: 'DELETE' });
-    loadSources();
-}
-
-// Load sources when that section is shown
-const origShowSection = showSection;
-showSection = function(section) {
-    origShowSection(section);
-    if (section === 'sources') loadSources();
-};
-</script>
 
 </body>
 </html>

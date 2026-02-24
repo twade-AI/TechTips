@@ -1,10 +1,9 @@
 """
 Knowledge Library — Save, organise, search, and manage
-articles, perspectives, and notes.
+articles, notes, and curated resources.
 """
 
 import aiosqlite
-from datetime import datetime
 
 
 async def save_article(db: aiosqlite.Connection, title: str, url: str = "",
@@ -32,25 +31,6 @@ async def search_articles(db: aiosqlite.Connection, query: str) -> list[dict]:
     cursor = await db.execute(
         "SELECT * FROM articles WHERE title LIKE ? OR summary LIKE ? OR tags LIKE ? ORDER BY created_at DESC",
         (pattern, pattern, pattern),
-    )
-    rows = await cursor.fetchall()
-    return [dict(row) for row in rows]
-
-
-async def save_perspective(db: aiosqlite.Connection, question: str,
-                           cautious: str, radical: str, pragmatic: str,
-                           verdict: str) -> int:
-    cursor = await db.execute(
-        "INSERT INTO perspectives (question, cautious_view, radical_view, pragmatic_view, verdict) VALUES (?, ?, ?, ?, ?)",
-        (question, cautious, radical, pragmatic, verdict),
-    )
-    await db.commit()
-    return cursor.lastrowid
-
-
-async def get_perspectives(db: aiosqlite.Connection, limit: int = 50) -> list[dict]:
-    cursor = await db.execute(
-        "SELECT * FROM perspectives ORDER BY created_at DESC LIMIT ?", (limit,)
     )
     rows = await cursor.fetchall()
     return [dict(row) for row in rows]
@@ -151,3 +131,26 @@ async def add_feed_source(db: aiosqlite.Connection, name: str, url: str, categor
 async def remove_feed_source(db: aiosqlite.Connection, feed_id: int):
     await db.execute("DELETE FROM feed_sources WHERE id = ?", (feed_id,))
     await db.commit()
+
+
+# ── Resources ────────────────────────────────────────────────────
+
+async def get_resources(db: aiosqlite.Connection, category: str = None) -> list[dict]:
+    if category:
+        cursor = await db.execute(
+            "SELECT * FROM resources WHERE category = ? ORDER BY sort_order",
+            (category,),
+        )
+    else:
+        cursor = await db.execute("SELECT * FROM resources ORDER BY category, sort_order")
+    rows = await cursor.fetchall()
+    return [dict(row) for row in rows]
+
+
+async def get_featured_resources(db: aiosqlite.Connection, limit: int = 8) -> list[dict]:
+    cursor = await db.execute(
+        "SELECT * FROM resources WHERE featured = 1 ORDER BY RANDOM() LIMIT ?",
+        (limit,),
+    )
+    rows = await cursor.fetchall()
+    return [dict(row) for row in rows]

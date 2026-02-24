@@ -1,25 +1,33 @@
-# TechTips — Education Knowledge Base
+# TechTips — Education Innovation Hub
 
-A knowledge base application focused on innovation in **pedagogy**, **digital technology**, and **enterprise** for 11-18 education.
+A curated resource website for innovation in **pedagogy**, **digital technology**, and **enterprise** for 11-18 education. No API keys required.
 
 ## Features
 
-### Perspectives Engine (Dialogical Partner)
-Ask any question about education innovation and receive three expert perspectives:
-- **The Guardian** — cautious, evidence-first, values proven methods
-- **The Radical** — transformative, advocates for fundamental redesign
-- **The Pragmatist** — balanced, implementation-focused, realistic
-
-Each perspective includes supporting and contradicting evidence, a debate section where they engage with each other, and a verdict on which has the strongest support. You can ask follow-up questions to continue the debate.
-
 ### Curated Newsfeed
-RSS-based feed pulling from configurable education and EdTech sources including TES, BBC Education, The Guardian Education, EdSurge, and more. Articles can be filtered by category and summarised using AI.
+Live RSS feeds from top education sources including TES, BBC Education, The Guardian, EdSurge, Schools Week, TeachThought, and more. Articles are automatically tagged with school values and filtered by category.
 
-### Knowledge Library
-- **Saved Articles** — save and organise articles from the newsfeed
-- **Notes** — create your own notes with tags
-- **Collections** — group articles and notes into themed collections
-- **Search** — full-text search across your saved knowledge
+### School Values Tagging
+Every article is auto-tagged against six core character values — **Courage**, **Curiosity**, **Integrity**, **Kindness**, **Respect**, and **Service** — so you can filter content that aligns with your school ethos.
+
+### Haileybury 2030 Alignment
+Articles are matched against key academic ambitions: curriculum innovation, pedagogical excellence, technology & digital, leadership & enterprise, learning habits, assessment, and university & futures.
+
+### Resource Toolkit
+Hand-picked tools, organisations, and platforms across seven innovation themes:
+- AI in Education
+- Project-Based Learning
+- Assessment Innovation
+- Digital & Computing
+- Enterprise & Careers
+- Research & Evidence
+- Inclusive Education
+
+### Reading List & Notes
+Save articles for later, create personal notes with tags, and search across your knowledge base.
+
+### Surprise Me
+Discover random articles from the feed for serendipitous reading.
 
 ## Setup
 
@@ -28,23 +36,18 @@ RSS-based feed pulling from configurable education and EdTech sources including 
    pip install -r requirements.txt
    ```
 
-2. Create a `.env` file with your Anthropic API key:
-   ```bash
-   cp .env.example .env
-   # Edit .env and add your API key
-   ```
-
-3. Run the application:
+2. Run the application:
    ```bash
    python run.py
    ```
 
-4. Open http://localhost:8000 in your browser.
+3. Open http://localhost:8000 in your browser.
+
+No API keys or environment variables needed.
 
 ## Tech Stack
 
 - **Backend:** Python, FastAPI, SQLite (via aiosqlite)
-- **AI:** Anthropic Claude API (Sonnet for perspectives, Haiku for summaries)
 - **Frontend:** Vanilla HTML/CSS/JavaScript
 - **Feeds:** RSS via feedparser
 
@@ -53,17 +56,16 @@ RSS-based feed pulling from configurable education and EdTech sources including 
 ```
 TechTips/
 ├── app/
-│   ├── main.py          # FastAPI application and API routes
-│   ├── database.py      # Database setup and migrations
-│   ├── perspectives.py  # Perspectives Engine (dialogical partner)
-│   ├── newsfeed.py      # RSS feed aggregator with AI summaries
-│   └── library.py       # Knowledge library CRUD operations
+│   ├── main.py          # FastAPI routes
+│   ├── database.py      # Database setup, migrations, seed data
+│   ├── newsfeed.py      # RSS feed aggregator
+│   └── library.py       # Library and resources CRUD
 ├── static/
-│   ├── css/style.css    # Application styles
-│   └── js/app.js        # Frontend JavaScript
+│   ├── css/style.css    # Styles
+│   └── js/app.js        # Frontend logic, values tagging engine
 ├── templates/
 │   └── index.html       # Main HTML template
 ├── requirements.txt
 ├── run.py               # Server entry point
-└── .env.example         # Environment variable template
+└── README.md
 ```
