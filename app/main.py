@@ -16,7 +16,7 @@ from fastapi.templating import Jinja2Templates
 
 import aiosqlite
 
-from .database import get_db, init_db, seed_default_feeds, seed_default_resources
+from .database import get_db, init_db, seed_default_feeds, seed_default_articles, seed_default_resources
 from . import newsfeed, library
 
 
@@ -24,6 +24,7 @@ from . import newsfeed, library
 async def lifespan(app: FastAPI):
     await init_db()
     await seed_default_feeds()
+    await seed_default_articles()
     await seed_default_resources()
     yield
 

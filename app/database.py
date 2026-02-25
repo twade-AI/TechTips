@@ -85,6 +85,7 @@ async def seed_default_feeds():
         ("TeachThought", "https://www.teachthought.com/feed/", "pedagogy"),
         ("Schools Week", "https://schoolsweek.co.uk/feed/", "education"),
         ("Teacher Toolkit", "https://www.teachertoolkit.co.uk/feed/", "pedagogy"),
+        ("Google Workspace Updates", "https://workspaceupdates.googleblog.com/feeds/posts/default", "edtech"),
     ]
     async with aiosqlite.connect(DB_PATH) as db:
         cursor = await db.execute("SELECT COUNT(*) FROM feed_sources")
@@ -93,6 +94,120 @@ async def seed_default_feeds():
             await db.executemany(
                 "INSERT OR IGNORE INTO feed_sources (name, url, category) VALUES (?, ?, ?)",
                 default_feeds,
+            )
+            await db.commit()
+
+
+async def seed_default_articles():
+    """Insert curated AI-in-education articles if none exist."""
+    articles = [
+        (
+            "How AI Is Changing — Not 'Killing' — College",
+            "https://www.insidehighered.com/news/students/academics/2025/08/29/survey-college-students-views-ai",
+            "Inside Higher Ed",
+            "Survey of 1,047 college students reveals AI use hasn't diminished their perception of college value — students primarily use AI for supportive learning activities like studying and brainstorming.",
+            "ai, education, research, students",
+        ),
+        (
+            "Looking for Light in the New Brookings Report on AI and Education",
+            "https://davidpblross.substack.com/p/looking-for-light-in-the-new-brookings",
+            "David Ross (Substack)",
+            "Identifies six concrete opportunities in the Brookings report — improving equity, optimising teacher time, enhancing learning, personalising instruction, supporting neurodivergent learners, and advancing assessment.",
+            "ai, education, research, equity",
+        ),
+        (
+            "The Fifteen AI World-Altering Challenges Most Schools Refuse to See",
+            "https://stefanbauschard.substack.com/p/the-fifteen-ai-world-altering-challenges",
+            "Stefan Bauschard (Substack)",
+            "Argues schools are preparing students for an economy that no longer exists, identifying sixteen critical areas — from AI relationships and economic disruption to deepfakes — where students need preparation.",
+            "ai, education, future, curriculum",
+        ),
+        (
+            "Google for Education Generative AI Resources",
+            "https://services.google.com/fh/files/misc/gfe_generative_ai_resources.pdf",
+            "Google for Education",
+            "Comprehensive guide to Google's generative AI tools and resources for K-12 and higher education — covers training programmes, certifications, and implementation guides for Gemini and NotebookLM.",
+            "ai, edtech, resources, google",
+        ),
+        (
+            "Cartography of Generative AI",
+            "https://cartography-of-generative-ai.net/",
+            "Cartography of Generative AI",
+            "Maps the complex infrastructure and global supply chains underlying generative AI systems — tracing data extraction, computational processing, raw material mining, energy consumption, and environmental impacts.",
+            "ai, infrastructure, ethics, environment",
+        ),
+        (
+            "Everything Educators Need to Know About GenAI in 2026",
+            "https://leonfurze.com/2026/01/15/everything-educators-need-to-know-about-genai-in-2026/",
+            "Leon Furze",
+            "Comprehensive overview of GenAI for educators covering how it works, available applications, concerns for educators and students, and how schools should respond through policy and practice.",
+            "ai, education, pedagogy, policy",
+        ),
+        (
+            "Get Started with Google AI in K12 Education",
+            "https://skillshop.exceedlms.com/student/path/1178011-get-started-with-gemini-for-google-workspace",
+            "Google Skillshop",
+            "Free course teaching K-12 educators how to use Gemini across Google Workspace apps — Docs, Gmail, Slides, and Classroom — to enhance productivity and creativity.",
+            "ai, edtech, google, training, cpd",
+        ),
+        (
+            "Teaching Responsible Use of AI — Lesson Plan",
+            "https://services.google.com/fh/files/misc/google_teaching_responsible_ai.pdf",
+            "Google for Education",
+            "Structured lesson plan for teaching students about the ethical and responsible use of artificial intelligence, with guidance on introducing AI concepts and responsible practices.",
+            "ai, education, ethics, pedagogy, lesson-plan",
+        ),
+        (
+            "AI 2027 — Scenario Forecast",
+            "https://ai-2027.com/",
+            "AI 2027",
+            "Detailed scenario forecasting how AI could evolve and transform society between 2025 and 2027, exploring potential capabilities, alignment challenges, and global competition around superintelligent AI.",
+            "ai, future, scenarios, alignment",
+        ),
+        (
+            "Process Feedback — A Learning-First Alternative to AI Detection",
+            "https://processfeedback.org/",
+            "Process Feedback",
+            "Free tool that captures students' writing process — edits, revision patterns, and AI usage — shifting the conversation from 'Did you cheat?' to 'How did you learn?'",
+            "ai, assessment, writing, tools, integrity",
+        ),
+        (
+            "Thinking — Fast, Slow, and Artificial: How AI is Reshaping Human Reasoning",
+            "https://ssrn.com/abstract=6097646",
+            "SSRN (Shaw & Nave, UPenn)",
+            "Examines how AI is affecting human cognitive processes, introducing the concept of 'cognitive surrender' — the idea that humans may increasingly defer their reasoning to AI systems.",
+            "ai, research, cognition, psychology",
+        ),
+        (
+            "Agentic Engineering Patterns",
+            "https://simonwillison.net/2026/Feb/23/agentic-engineering-patterns/",
+            "Simon Willison",
+            "Documents coding practices for working with AI coding agents that can generate and execute code independently — covers test-driven development approaches and how 'writing code is cheap now'.",
+            "ai, coding, engineering, agentic",
+        ),
+        (
+            "The AI Fluency Index",
+            "https://www.anthropic.com/research/AI-fluency-index",
+            "Anthropic",
+            "Research tracking 11 observable behaviours across 9,830 conversations to measure how people develop skills in AI collaboration — finds iterative conversations and critical evaluation are key indicators of fluency.",
+            "ai, research, fluency, skills",
+        ),
+        (
+            "OECD Digital Education Outlook 2026: Exploring Effective Uses of Generative AI in Education",
+            "https://www.oecd.org/en/publications/oecd-digital-education-outlook-2026_062a7394-en.html",
+            "OECD",
+            "Flagship OECD report examining how generative AI is reshaping education — finds GenAI can scale personalised learning and cut lesson planning time by 31%, but warns over-reliance risks reducing metacognitive engagement.",
+            "ai, education, research, policy, oecd",
+        ),
+    ]
+
+    async with aiosqlite.connect(DB_PATH) as db:
+        cursor = await db.execute("SELECT COUNT(*) FROM articles")
+        count = (await cursor.fetchone())[0]
+        if count == 0:
+            await db.executemany(
+                "INSERT INTO articles (title, url, source, summary, tags, saved) VALUES (?, ?, ?, ?, ?, 1)",
+                articles,
             )
             await db.commit()
 
