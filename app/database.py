@@ -87,6 +87,22 @@ async def seed_default_feeds():
         ("Teacher Toolkit", "https://www.teachertoolkit.co.uk/feed/", "pedagogy"),
         ("Google Workspace Updates", "https://workspaceupdates.googleblog.com/feeds/posts/default", "edtech"),
         ("The Neuron Daily", "https://rss.beehiiv.com/feeds/N4eCstxvgX.xml", "ai"),
+        # UK Research & Policy
+        ("BERA", "https://www.bera.ac.uk/feed", "research"),
+        ("UCL Institute of Education", "https://blogs.ucl.ac.uk/ioe/feed/", "research"),
+        ("Cambridge Education Blog", "https://blog.cambridgeinternational.org/feed/", "research"),
+        ("UK Dept for Education", "https://www.gov.uk/government/organisations/department-for-education.atom", "policy"),
+        ("Ofsted", "https://www.gov.uk/government/organisations/ofsted.atom", "policy"),
+        ("DfE Teaching Blog", "https://teaching.blog.gov.uk/feed/", "policy"),
+        ("DfE Education Hub", "https://educationhub.blog.gov.uk/feed/", "policy"),
+        ("Wonkhe", "https://wonkhe.com/feed/", "policy"),
+        ("HEPI", "https://www.hepi.ac.uk/feed/", "policy"),
+        # EU & International
+        ("OECD Education & Skills Today", "https://oecdeducationtoday.blogspot.com/feeds/posts/default?alt=rss", "policy"),
+        ("CEDEFOP News", "https://www.cedefop.europa.eu/news-and-press/news.rss", "policy"),
+        # AI & Academic Research
+        ("arXiv Computers & Society", "https://rss.arxiv.org/rss/cs.CY", "research"),
+        ("arXiv AI", "https://rss.arxiv.org/rss/cs.AI", "ai"),
     ]
     async with aiosqlite.connect(DB_PATH) as db:
         cursor = await db.execute("SELECT COUNT(*) FROM feed_sources")
