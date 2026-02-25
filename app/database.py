@@ -86,6 +86,7 @@ async def seed_default_feeds():
         ("Schools Week", "https://schoolsweek.co.uk/feed/", "education"),
         ("Teacher Toolkit", "https://www.teachertoolkit.co.uk/feed/", "pedagogy"),
         ("Google Workspace Updates", "https://workspaceupdates.googleblog.com/feeds/posts/default", "edtech"),
+        ("The Neuron Daily", "https://rss.beehiiv.com/feeds/N4eCstxvgX.xml", "ai"),
     ]
     async with aiosqlite.connect(DB_PATH) as db:
         cursor = await db.execute("SELECT COUNT(*) FROM feed_sources")
