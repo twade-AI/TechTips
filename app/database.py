@@ -216,6 +216,55 @@ async def seed_default_articles():
             "Flagship OECD report examining how generative AI is reshaping education — finds GenAI can scale personalised learning and cut lesson planning time by 31%, but warns over-reliance risks reducing metacognitive engagement.",
             "ai, education, research, policy, oecd",
         ),
+        (
+            "Quantifying Human-AI Synergy",
+            "https://osf.io/preprints/psyarxiv/vbkmt_v1",
+            "Riedl & Weidmann (PsyArXiv)",
+            "Introduces a Bayesian framework to measure human-AI collaboration ability, finding it is a distinct competence separate from individual problem-solving skill — users who adapt to others' perspectives achieve superior AI collaboration.",
+            "ai, research, collaboration, skills",
+        ),
+        (
+            "From Superficial Outputs to Superficial Learning: Risks of Large Language Models in Education",
+            "https://arxiv.org/abs/2509.21972",
+            "Delikoura, Fung & Hui (arXiv)",
+            "Systematic review of 70 empirical studies examining how LLMs are applied in education — identifies risks including reduced student independence, weaker memory formation, and over-reliance alongside technical concerns like bias and hallucinations.",
+            "ai, education, research, cognition, assessment",
+        ),
+        (
+            "Teaching the AI-Native Generation: Empowering Schools in the Age of AI",
+            "https://fdslive.oup.com/www.oup.com/oxed/secondary/Teaching_the_AI_Native_Generation.pdf",
+            "Oxford University Press",
+            "Survey of 2,000 UK students finds 80% use AI for schoolwork yet fewer than half feel confident identifying AI-generated misinformation — students want teacher guidance on trustworthy sources, not prohibition.",
+            "ai, education, research, students, literacy",
+        ),
+        (
+            "Underreporting of AI Use: The Role of Social Desirability Bias",
+            "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5464215",
+            "Ling, Kale & Imas (SSRN)",
+            "Surveys 338 university students and finds a significant gap: ~60% report using AI themselves while estimating 90% of peers do — embarrassment and fear of judgement drive underreporting, meaning institutional surveys likely underestimate AI adoption.",
+            "ai, research, students, integrity, assessment",
+        ),
+        (
+            "Cyborgs, Centaurs and Self-Automators: Human-GenAI Knowledge Work and Implications for Skilling",
+            "https://www.hbs.edu/ris/Publication%20Files/26-036_e7d0e59a-904c-49f1-b610-56eb2bdfe6f9.pdf",
+            "Randazzo et al. (Harvard Business School)",
+            "Field study of 244 management consultants identifies three modes of human-GenAI work — Centaurs upskill domain expertise, Cyborgs develop AI expertise, and Self-Automators risk eroding both — highlighting the tension between automation and augmentation.",
+            "ai, research, future, skills, employment",
+        ),
+        (
+            "Randomized Trial of a Generative AI Chatbot for Mental Health Treatment",
+            "https://gwern.net/doc/psychiatry/depression/2025-heinz.pdf",
+            "Heinz et al. (NEJM AI)",
+            "First clinical trial of a generative AI therapy chatbot (Therabot) with 210 adults — produced clinically significant reductions in depression, anxiety, and eating disorder symptoms, with participants rating it comparably to a human therapist.",
+            "ai, research, wellbeing, mental-health",
+        ),
+        (
+            "Uneven Adoption of AI Tools Among U.S. Teachers and Principals",
+            "https://www.rand.org/pubs/research_reports/RRA134-25.html",
+            "Kaufman et al. (RAND Corporation)",
+            "Finds teachers in higher-poverty schools are significantly less likely to use AI tools and receive less guidance — only 25% of teachers used AI for instruction, while principals in high-poverty schools were half as likely to provide AI guidance.",
+            "ai, education, research, equity, policy",
+        ),
     ]
 
     async with aiosqlite.connect(DB_PATH) as db:
